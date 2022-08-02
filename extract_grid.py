@@ -1,14 +1,11 @@
 # remove part of the grid
 ds = netCDF4.Dataset(path.with_name('pillar_net.nc'))
-variables = {}
 node_vars = ['NetNode_x', 'NetNode_y', 'NetNode_z', 'NetNode_lat', 'NetNode_lon']
 link_vars = ['NetLink', 'NetLinkType']
 bndlink_vars = ['BndLink']
 elem_vars = ['NetElemNode']
 
-for var in node_vars:
-    # copy data
-    variables[var] = ds.variables[var][:]  
+variables = {var: ds.variables[var][:] for var in node_vars}
 node_selection = np.logical_and(variables['NetNode_y'] >= 1000, variables['NetNode_y'] <= 2000)
 for var in node_vars:
     variables[var] = variables[var][node_selection]
